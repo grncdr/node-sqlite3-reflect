@@ -1,0 +1,17 @@
+{
+  "name": "db-reflect",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "map-async": "~0.1.1",
+    "pluck": "0.0.4",
+    "after": "~0.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stephen Sugden <me@stephensugden.com>",
+  "license": "BSD-2-Clause"
+}
