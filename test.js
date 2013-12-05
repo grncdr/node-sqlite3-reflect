@@ -1,10 +1,13 @@
-var createConnection = require('../any-db/any-db').createConnection
+var test = require('tape');
+var createConnection = require('any-db').createConnection
+var reflect = require('./');
 
-createConnection('sqlite3://' + __dirname + '/test.db', function (err, conn) {
-  console.log('connected');
-  require('./')(conn, function (err, schema) {
-    console.log('done');
-    if (err) console.error(err);
-    else console.log(JSON.stringify(schema, null, 2));
-  });
-});
+test('Reflecting a SQLite3 database', function (t) {
+  t.plan(1);
+  createConnection('sqlite3://' + __dirname + '/test.db', function (err, conn) {
+    reflect(conn, function (err, schema) {
+      if (err) throw err
+      t.deepEqual(schema, require('./test_schema.json'))
+    })
+  })
+})

@@ -1,0 +1,72 @@
+{
+  "blah": {
+    "name": "blah",
+    "columns": {
+      "x": {
+        "id": 0,
+        "name": "x",
+        "type": "int",
+        "primaryKey": 0,
+        "notNull": 0,
+        "default": null
+      },
+      "y": {
+        "id": 1,
+        "name": "y",
+        "type": "int",
+        "primaryKey": 0,
+        "notNull": 0,
+        "default": null
+      }
+    },
+    "foreignKeys": [],
+    "indexes": [
+      {
+        "name": "blah_x_idx",
+        "columns": [
+          "x"
+        ]
+      },
+      {
+        "name": "blah_x_y_idx",
+        "columns": [
+          "x",
+          "y"
+        ]
+      }
+    ]
+  },
+  "nah": {
+    "name": "nah",
+    "columns": {
+      "z": {
+        "id": 0,
+        "name": "z",
+        "type": "int",
+        "primaryKey": 0,
+        "notNull": 0,
+        "default": null
+      },
+      "b_y": {
+        "id": 1,
+        "name": "b_y",
+        "type": "int",
+        "primaryKey": 0,
+        "notNull": 0,
+        "default": null
+      }
+    },
+    "foreignKeys": [
+      {
+        "columns": [
+          "b_y"
+        ],
+        "foreignTable": "blah",
+        "foreignColumns": [
+          "y"
+        ]
+      }
+    ],
+    "indexes": []
+  }
+}

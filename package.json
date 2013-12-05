@@ -1,16 +1,25 @@
 {
   "name": "db-reflect",
   "version": "0.0.0",
-  "description": "",
+  "description": "Reflect database schemas from an any-db connection",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grncdr/node-db-reflect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/grncdr/node-db-reflect/issues"
+  },
   "dependencies": {
     "map-async": "~0.1.1",
-    "pluck": "0.0.4",
-    "after": "~0.8.1"
+    "pluck": "0.0.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "any-db-sqlite3": "1.x.x",
+    "tape": "~2.3.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "author": "Stephen Sugden <me@stephensugden.com>",
   "license": "BSD-2-Clause"
