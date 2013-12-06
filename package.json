@@ -1,21 +1,21 @@
 {
-  "name": "db-reflect",
+  "name": "sqlite3-reflect",
   "version": "0.0.0",
-  "description": "Reflect database schemas from an any-db connection",
+  "description": "Reflect the schema of a sqlite3 database",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grncdr/node-db-reflect.git"
+    "url": "https://github.com/grncdr/node-sqlite3-reflect.git"
   },
   "bugs": {
-    "url": "https://github.com/grncdr/node-db-reflect/issues"
+    "url": "https://github.com/grncdr/node-sqlite3-reflect/issues"
   },
   "dependencies": {
     "map-async": "~0.1.1",
     "pluck": "0.0.4"
   },
   "devDependencies": {
-    "any-db-sqlite3": "1.x.x",
+    "sqlite3": "~2.1.19",
     "tape": "~2.3.0"
   },
   "scripts": {
