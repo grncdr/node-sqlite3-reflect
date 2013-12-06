@@ -1,22 +1,13 @@
-# db-reflect
+# sqlite3-reflect
 
-Reflection of SQL databases, currently supports SQLite3, will eventually support
-Postgres and MySQL as well.
+## module.exports = reflect(database, callback)
 
-This is still a WIP, feedback on the schema format and API is very welcome.
-
-## API
-
-### module.exports = reflect(connection, callback)
-
-Given an [Any-DB](https://github.com/grncdr/node-any-db) connection, reflects
-the database schema of all tables, including indexes and foreign keys.
-
-Note that the connection doesn't necessarily *need* to be an Any-DB connection,
-but it must provide a compatible [query][] method, and have an `.adapter`
-property that is one of `'sqlite3'`, `'mysql'`, or `'postgres'`.
-
-[query]: https://github.com/grncdr/node-any-db/blob/master/any-db/API.md#connectionquery
+Given an [sqlite3](https://npm.im/sqlite3) database, reflects the schema of all
+tables, including indexes and foreign keys. `callback` should accept two
+arguments in the standard Node style, the first will be an error (if any
+occurred) and the second will be the database schema object. See the file
+[test_schema.json](test_schema.json) in this project for an example of the
+object that will be returned.
 
 ## License
 
