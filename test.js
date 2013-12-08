@@ -1,6 +1,6 @@
 var test = require('tape');
 var Database = require('sqlite3').Database;
-var reflect = require('./sqlite3');
+var reflect = require('./index');
 
 test('Reflecting a SQLite3 database', function (t) {
   t.plan(1);

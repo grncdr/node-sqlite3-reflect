@@ -1,5 +1,6 @@
 module.exports = reflect
 
+var doto = require('../doto');
 var map = require('map-async');
 var pluck = require('pluck');
 
@@ -17,7 +18,6 @@ var tableProperties = {
 }
 
 function reflect (database, finished) {
-  console.log(database, finished);
   getTableNames(database, function (err, tablenames) {
     if (err) return finished(err)
 
@@ -34,75 +34,75 @@ function reflect (database, finished) {
     function reflectTable (tablename, i, nextTable) {
       var table = {
         name: tablename,
+        primaryKey: [],
         columns: {},
-        foreignKeys: [],
         indexes: []
       }
-
-      map(tableProperties, function (getter, propertyName, nextProperty) {
-        getter(database, tablename, function (err, result) {
-          if (err) return nextProperty(err)
-          table[propertyName] = result
-          nextProperty()
-        })
-      },
-      function (err) {
+      var steps = [getColumns, getForeignKeys, getIndexes].map(function (f) {
+        return f.bind(null, database)
+      })
+      doto(table, steps, function (err) {
         nextTable(err, table)
       })
     }
   })
 }
 
-function getTableNames (conn, cb) {
-  conn.all(queries.tableNames, function (err, rows) {
+function getTableNames (database, cb) {
+  database.all(queries.tableNames, function (err, rows) {
     if (err) return cb(err);
-    debugger
     cb(null, rows.map(getName));
   })
 }
 
-function getColumns (conn, tablename, cb) {
-  conn.all('PRAGMA table_info("' + tablename + '")', function (err, rows) {
-    if (err) return cb(err);
-    cb(null, rows.reduce(function (columns, row) {
-      columns[row.name] = {
-        id: row.cid,
+function getColumns (database, table, next) {
+  database.all('PRAGMA table_info("' + table.name + '")', function (err, rows) {
+    if (err) return next(err);
+    rows.forEach(function (row) {
+      table.columns[row.name] = {
+        position: row.cid,
         name: row.name,
         type: row.type,
-        primaryKey: row.pk,
         notNull: row.notnull,
-        default: row.dflt_value
+        default: row.dflt_value,
+        refersTo: []
       };
-      return columns;
-    }, {}));
-  })
-}
-
-function getForeignKeys (conn, tablename, cb) {
-  conn.all('PRAGMA foreign_key_list("' + tablename + '")', function (err, rows) {
-    if (err) return cb(err);
-    cb(null, rows.map(function (row) {
-      return {
-        columns: [row.from],
-        foreignTable: row.table,
-        foreignColumns: [row.to],
+      if (row.pk) {
+        table.primaryKey.push(row.name)
       }
-    }));
+    })
+    next();
   })
 }
 
-function getIndexes (conn, tablename, cb) {
-  conn.all(queries.indexes, [tablename], function (err, rows) {
-    if (err) return cb(err)
+function getForeignKeys (database, table, next) {
+  database.all('PRAGMA foreign_key_list("' + table.name + '")', function (err, rows) {
+    if (err) return next(err);
+    rows.forEach(function (row) {
+      var column = table.columns[row.from];
+      debugger
+      column.refersTo.push({
+        table: row.table,
+        column: row.to,
+      })
+    })
+    next();
+  })
+}
+
+function getIndexes (database, table, next) {
+  database.all(queries.indexes, [table.name], function (err, rows) {
+    if (err) return next(err)
     map(rows, function (row, i, nextIndex) {
       var indexName = row.name;
-      conn.all('PRAGMA index_info("' + indexName + '")', function (err, rows) {
+      database.all('PRAGMA index_info("' + indexName + '")', function (err, rows) {
         if (err) return nextIndex(err)
-        nextIndex(null, {
+        table.indexes.push({
           name: indexName,
           columns: rows.map(getName)
-        });
+        })
+        nextIndex()
       })
-    }, cb)
+    }, next)
   })
 }

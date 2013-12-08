@@ -1,25 +1,25 @@
 {
   "blah": {
     "name": "blah",
+    "primaryKey": [],
     "columns": {
       "x": {
-        "id": 0,
+        "position": 0,
         "name": "x",
         "type": "int",
-        "primaryKey": 0,
         "notNull": 0,
-        "default": null
+        "default": null,
+        "refersTo": []
       },
       "y": {
-        "id": 1,
+        "position": 1,
         "name": "y",
         "type": "int",
-        "primaryKey": 0,
         "notNull": 0,
-        "default": null
+        "default": null,
+        "refersTo": []
       }
     },
-    "foreignKeys": [],
     "indexes": [
       {
         "name": "blah_x_idx",
@@ -38,35 +38,30 @@
   },
   "nah": {
     "name": "nah",
+    "primaryKey": [],
     "columns": {
       "z": {
-        "id": 0,
+        "position": 0,
         "name": "z",
         "type": "int",
-        "primaryKey": 0,
         "notNull": 0,
-        "default": null
+        "default": null,
+        "refersTo": []
       },
       "b_y": {
-        "id": 1,
+        "position": 1,
         "name": "b_y",
         "type": "int",
-        "primaryKey": 0,
         "notNull": 0,
-        "default": null
-      }
-    },
-    "foreignKeys": [
-      {
-        "columns": [
-          "b_y"
-        ],
-        "foreignTable": "blah",
-        "foreignColumns": [
-          "y"
+        "default": null,
+        "refersTo": [
+          {
+            "table": "blah",
+            "column": "y"
+          }
         ]
       }
-    ],
+    },
     "indexes": []
   }
 }
