@@ -1,6 +1,6 @@
 {
   "name": "sqlite3-reflect",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Reflect the schema of a sqlite3 database",
   "main": "index.js",
   "repository": {
