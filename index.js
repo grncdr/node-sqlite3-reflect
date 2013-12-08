@@ -11,12 +11,6 @@ var queries = {
   indexes: "SELECT name FROM SQLITE_MASTER WHERE type = 'index' AND tbl_name = ?",
 }
 
-var tableProperties = {
-  columns: getColumns,
-  foreignKeys: getForeignKeys,
-  indexes: getIndexes
-}
-
 function reflect (database, finished) {
   getTableNames(database, function (err, tablenames) {
     if (err) return finished(err)
@@ -36,7 +30,7 @@ function reflect (database, finished) {
         name: tablename,
         primaryKey: [],
         columns: {},
-        indexes: []
+        indexes: {}
       }
       var steps = [getColumns, getForeignKeys, getIndexes].map(function (f) {
         return f.bind(null, database)
@@ -97,10 +91,10 @@ function getIndexes (database, table, next) {
       var indexName = row.name;
       database.all('PRAGMA index_info("' + indexName + '")', function (err, rows) {
         if (err) return nextIndex(err)
-        table.indexes.push({
+        table.indexes[indexName] = {
           name: indexName,
           columns: rows.map(getName)
-        })
+        }
         nextIndex()
       })
     }, next)
