@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "map-async": "~0.1.1",
-    "pluck": "0.0.4"
+    "pluck": "0.0.4",
+    "doto": "0.0.1"
   },
   "devDependencies": {
     "sqlite3": "~2.1.19",

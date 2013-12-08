@@ -1,6 +1,6 @@
 module.exports = reflect
 
-var doto = require('../doto');
+var doto = require('doto');
 var map = require('map-async');
 var pluck = require('pluck');
 
